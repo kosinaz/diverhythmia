@@ -1,0 +1,46 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scenes/player.gd" type="Script" id=1]
+[ext_resource path="res://textures/4K-Brass_Normal.jpg" type="Texture" id=2]
+[ext_resource path="res://textures/4K-Brass_Roughness.jpg" type="Texture" id=3]
+[ext_resource path="res://textures/4K-Brass_Metallic.jpg" type="Texture" id=4]
+[ext_resource path="res://textures/4K-Brass_Base Color.jpg" type="Texture" id=5]
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.5
+
+[sub_resource type="SphereMesh" id=2]
+radius = 0.5
+height = 1.0
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 5 )
+metallic_texture = ExtResource( 4 )
+roughness_texture = ExtResource( 3 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 2 )
+
+[sub_resource type="CubeMesh" id=3]
+
+[node name="PlayerRoot" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="PlayerBody" type="KinematicBody" parent="."]
+unique_name_in_owner = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="PlayerBody"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="PlayerBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0133615, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 4 )
+
+[node name="Camera" type="Camera" parent="PlayerBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10742, 4.29357 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 3 )

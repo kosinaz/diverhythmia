@@ -1,0 +1,152 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://textures/4K-fence_3_basecolor.png" type="Texture" id=2]
+[ext_resource path="res://textures/4K-fence_3_ambientocclusion.png" type="Texture" id=3]
+[ext_resource path="res://textures/4K-fence_3_roughness.png" type="Texture" id=4]
+[ext_resource path="res://textures/4K-fence_3_metallic.png" type="Texture" id=5]
+[ext_resource path="res://textures/4K-fence_3_normal.png" type="Texture" id=6]
+[ext_resource path="res://scenes/path_follow.gd" type="Script" id=7]
+[ext_resource path="res://scenes/fan.tscn" type="PackedScene" id=8]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 1, 1, 32, -1, -1, -32, -1, 26, 0, 1, 0, 79, -1, 0, -79, 0, 26, -65, -82, 1, -1, 82, -1, 1, 128, 2, -193, 0, 0, 83, 0, 0, -83, 256, 26, -321, -79, 0, 1, 79, 0, -1, 384, 50, -448, 1, 5, 78, -1, -5, -78, 512, 26, -576, -84, 0, 0, 84, 0, 0, 640, -3, -704, 0, 0, 81, 0, 0, -81, 768, 26, -834 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_texture = ExtResource( 2 )
+metallic_texture = ExtResource( 5 )
+roughness_texture = ExtResource( 4 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 6 )
+ao_enabled = true
+ao_light_affect = 0.0
+ao_texture = ExtResource( 3 )
+ao_on_uv2 = false
+ao_texture_channel = 0
+uv1_scale = Vector3( 1, 8, 1 )
+
+[node name="Node" type="Node"]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.258819, -0.965926, 0, 0.965926, -0.258819, 0, 7.53358, 0 )
+shadow_enabled = true
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 1 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Path"]
+invert_faces = true
+polygon = PoolVector2Array( -5, -1, -4, -3, -3, -4, -1, -5, 1, -5, 3, -4, 4, -3, 5, -1, 5, 1, 4, 3, 3, 4, 1, 5, -1, 5, -3, 4, -4, 3, -5, 1 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 10.0
+path_joined = false
+material = SubResource( 2 )
+
+[node name="PathFollowPlayer" type="PathFollow" parent="Path"]
+transform = Transform( 0.986678, -0.00330496, -0.162649, -0.014227, 0.99421, -0.106507, 0.162059, 0.107402, 0.980918, 0.0663275, 25.8262, -23.2473 )
+offset = 23.43
+script = ExtResource( 7 )
+
+[node name="Player" parent="Path/PathFollowPlayer" instance=ExtResource( 1 )]
+transform = Transform( 1, 2.23736e-10, -1.86265e-09, 1.83718e-10, 1, 0, -1.86265e-09, 9.31323e-10, 1, 0, 0, 0 )
+
+[node name="PathFollow" type="PathFollow" parent="Path"]
+transform = Transform( -0.983281, -0.0196342, 0.181031, -0.034907, 0.996056, -0.0815698, -0.178716, -0.0865253, -0.980089, 2.6468, 24.6441, -97.9839 )
+offset = 98.36
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow" instance=ExtResource( 8 )]
+
+[node name="PathFollow2" type="PathFollow" parent="Path"]
+transform = Transform( -0.801655, 0.0282441, 0.597119, -0.0996484, 0.978593, -0.18007, -0.589422, -0.203856, -0.78168, 24.4893, 16.7631, -149.321 )
+offset = 153.01
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow2" instance=ExtResource( 8 )]
+direction = -1
+
+[node name="PathFollow3" type="PathFollow" parent="Path"]
+transform = Transform( -0.490647, 0.0573126, 0.869471, -0.174598, 0.971132, -0.16254, -0.853687, -0.231558, -0.466476, 57.8739, 8.71789, -177.668 )
+offset = 196.73
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow3" instance=ExtResource( 8 )]
+
+[node name="PathFollow4" type="PathFollow" parent="Path"]
+transform = Transform( -0.316076, 0.0543104, 0.947177, -0.202272, 0.971548, -0.123207, -0.92692, -0.230531, -0.296098, 78.5356, 5.44844, -186.313 )
+offset = 218.59
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow4" instance=ExtResource( 8 )]
+direction = -1
+
+[node name="PathFollow5" type="PathFollow" parent="Path"]
+transform = Transform( -0.158229, 0.040549, 0.986569, -0.218601, 0.972924, -0.0750479, -0.9629, -0.22754, -0.14508, 100.188, 3.21935, -191.221 )
+offset = 240.45
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow5" instance=ExtResource( 8 )]
+
+[node name="PathFollow6" type="PathFollow" parent="Path"]
+transform = Transform( -0.0235911, 0.0207167, 0.999506, -0.225514, 0.973906, -0.0255088, -0.973954, -0.226004, -0.0183036, 121.946, 2.11477, -192.98 )
+offset = 262.31
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow6" instance=ExtResource( 8 )]
+direction = -1
+
+[node name="PathFollow7" type="PathFollow" parent="Path"]
+transform = Transform( -0.0576963, -0.0421548, 0.997443, -0.226674, 0.973567, 0.0280339, -0.97226, -0.224477, -0.0657266, 143.475, 2.11898, -193.394 )
+offset = 284.17
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow7" instance=ExtResource( 8 )]
+
+[node name="PathFollow8" type="PathFollow" parent="Path"]
+transform = Transform( -0.302798, -0.210507, 0.929515, -0.248663, 0.95897, 0.136173, -0.920043, -0.189903, -0.342719, 184.912, 5.65875, -201.732 )
+offset = 327.89
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow8" instance=ExtResource( 8 )]
+direction = -1
+
+[node name="PathFollow9" type="PathFollow" parent="Path"]
+transform = Transform( -0.608997, -0.353875, 0.709855, -0.312899, 0.929562, 0.19496, -0.728845, -0.103383, -0.676827, 221.029, 13.1465, -223.821 )
+offset = 371.61
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow9" instance=ExtResource( 8 )]
+
+[node name="PathFollow10" type="PathFollow" parent="Path"]
+transform = Transform( -0.739774, -0.394347, 0.545182, -0.352797, 0.917275, 0.18477, -0.572946, -0.055651, -0.817701, 235.016, 17.418, -240.477 )
+offset = 393.47
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow10" instance=ExtResource( 8 )]
+direction = -1
+
+[node name="PathFollow11" type="PathFollow" parent="Path"]
+transform = Transform( -0.826708, -0.412867, 0.382223, -0.384586, 0.910536, 0.151717, -0.410666, -0.0215722, -0.91153, 244.847, 21.0192, -258.864 )
+offset = 415.33
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow11" instance=ExtResource( 8 )]
+
+[node name="PathFollow12" type="PathFollow" parent="Path"]
+transform = Transform( -0.877062, -0.419214, 0.234563, -0.405764, 0.907883, 0.105373, -0.25713, -0.00275876, -0.966372, 251.296, 23.7361, -278.614 )
+offset = 437.19
+rotation_mode = 4
+
+[node name="Fan" parent="Path/PathFollow12" instance=ExtResource( 8 )]
+direction = -1
